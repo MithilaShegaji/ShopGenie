@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ShopGenie</title>
+    <link
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --secondary-color: #9c27b0;
+        --accent-color: #e1bee7;
+        --text-color: #333;
+        --light-bg: #f8f9fa;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        color: var(--text-color);
+        background: linear-gradient(195deg, #9c27b0, #e1bee7);
+      }
+
+      .navbar {
+        padding: 1rem 0;
+      }
+
+      .navbar-brand {
+        font-size: 1.8rem;
+        font-weight: bold;
+        color: white !important;
+      }
+
+      .nav-link {
+        color: rgba(255, 255, 255, 0.9) !important;
+        font-weight: 500;
+        transition: color 0.3s ease;
+      }
+
+      .nav-link:hover {
+        color: var(--accent-color) !important;
+      }
+
+      .main-title {
+        color: white;
+        padding: 3rem 0;
+        text-align: center;
+        margin-bottom: 3rem;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .main-title h1 {
+        font-size: 2.5rem;
+        font-weight: bold;
+        margin-bottom: 1rem;
+      }
+
+      .main-title p {
+        font-size: 1.2rem;
+        opacity: 0.9;
+      }
+
+      .category-card {
+        margin-bottom: 2rem;
+        border: none;
+        border-radius: 10px;
+        overflow: hidden;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .category-card:hover {
+        transform: translateY(-5px);
+      }
+
+      .category-card a {
+        text-decoration: none;
+        color: var(--text-color);
+      }
+
+      .category-card img {
+        height: 200px;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+        display: block;
+        margin: 0 auto;
+        padding-top: 20px;
+      }
+
+      .category-card:hover img {
+        transform: scale(1.05);
+      }
+
+      .card-body {
+        padding: 1.25rem;
+        background: white;
+      }
+
+      .card-title {
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-bottom: 0;
+        color: #6a1b9a;
+      }
+
+      .footer {
+        color: #6a1b9a;
+        text-align: center;
+        padding: 2rem 0;
+        margin-top: 3rem;
+      }
+
+      @media (max-width: 768px) {
+        .main-title {
+          padding: 2rem 0;
+        }
+
+        .main-title h1 {
+          font-size: 2rem;
+        }
+
+        .category-card {
+          margin-bottom: 1.5rem;
+        }
+      }
+
+      .sparkle-wrapper {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        pointer-events: none;
+      }
+
+      .sparkle {
+        position: absolute;
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background-color: red;
+        animation: float-sparkle 1s ease-in infinite;
+        opacity: 0;
+      }
+
+      .sparkle::before {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        transform: rotate(45deg);
+        background-color: rgba(255, 255, 255, 0.8);
+      }
+
+      @keyframes float-sparkle {
+        0% {
+          transform: translate(0, 0) rotate(0deg) scale(0);
+          opacity: 0;
+        }
+        50% {
+          opacity: 1;
+        }
+        100% {
+          transform: translate(var(--tx), var(--ty)) rotate(180deg) scale(1);
+          opacity: 0;
+        }
+      }
+
+      /* Optional: Add shimmer effect to cards */
+      .category-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 50%;
+        height: 100%;
+        background: linear-gradient(
+          120deg,
+          transparent,
+          rgba(255, 255, 255, 0.3),
+          transparent
+        );
+        pointer-events: none;
+        transition: 0.5s;
+        z-index: 1;
+      }
+
+      .category-card:hover::before {
+        left: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+      <div class="container">
+        <a class="navbar-brand" href="/indexPage">✨ ShopGenie</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="/indexPage">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/wishlist/wishlistPage">Wishlist</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">About Us</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Contact</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="main-title">
+      <div class="container">
+        <h1>✨ Explore Our Categories</h1>
+        <p>Discover the latest trends in fashion and accessories</p>
+      </div>
+      <div class="sparkle-wrapper" id="sparkleContainer"></div>
+    </div>
+
+    <div class="container">
+      <div class="row">
+        <!-- Women's Fashion Categories -->
+        <div class="col-md-4">
+          <div class="card category-card">
+            <a href="index/?categoryID=1">
+              <img src="/images/women_maxi_dress.jpeg" alt="Women Maxi Dress" />
+              <div class="card-body">
+                <h5 class="card-title text-center">Women's Maxi Dresses</h5>
+              </div>
+            </a>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card category-card">
+            <a href="index/?categoryID=2">
+              <img src="/images/women_hoodie_3.jpg" alt="Women Hoodies" />
+              <div class="card-body">
+                <h5 class="card-title text-center">Women's Hoodies</h5>
+              </div>
+            </a>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card category-card">
+            <a href="index/?categoryID=3">
+              <img src="/images/women_kurti.jpeg" alt="Women Kurtis" />
+              <div class="card-body">
+                <h5 class="card-title text-center">Women's Kurtis</h5>
+              </div>
+            </a>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card category-card">
+            <a href="index/?categoryID=4">
+              <img src="/images/women_sandles.jpeg" alt="Women's Sandles" />
+              <div class="card-body">
+                <h5 class="card-title text-center">Women's Sandles</h5>
+              </div>
+            </a>
+          </div>
+        </div>
+      <!-- Men's Fashion Categories -->
+      <div class="col-md-4">
+        <div class="card category-card">
+          <a href="index/?categoryID=5">
+            <img src="/images/men_jackets.jpeg" alt="Men's Jacket" />
+            <div class="card-body">
+              <h5 class="card-title text-center">Men's Jacket</h5>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card category-card">
+          <a href="index/?categoryID=6">
+            <img src="/images/men_shirts.jpeg" alt="Men's Shirts" />
+            <div class="card-body">
+              <h5 class="card-title text-center">Men's Shirts</h5>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card category-card">
+          <a href="index/?categoryID=7">
+            <img src="/images/men_shoes.jpeg" alt="Men's Shoes" />
+            <div class="card-body">
+              <h5 class="card-title text-center">Men's Shoes</h5>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card category-card">
+          <a href="index/?categoryID=8">
+            <img src="/images/" alt="Men's Sunglasses" />
+            <div class="card-body">
+              <h5 class="card-title text-center">Men's Sunglasses</h5>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <!-- Accessories Categories -->
+      <div class="col-md-4">
+        <div class="card category-card">
+          <a href="index/?categoryID=9">
+            <img src="/images/" alt="Wallets and Purses" />
+            <div class="card-body">
+              <h5 class="card-title text-center">Men's Wallet and Women's Purse</h5>
+            </div>
+          </a>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card category-card">
+          <a href="index/?categoryID=10">
+            <img src="/images/watches.jpeg" alt="Watches" />
+            <div class="card-body">
+              <h5 class="card-title text-center">Men's and Women's Watches</h5>
+            </div>
+          </a>
+        </div>
+      </div>
+
+    </div>
+    </div>
+
+
+      <div class="footer">
+        <p>&copy; 2024 ShopGenie. All rights reserved.</p>
+      </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+      // New Sparkle Effect Logic
+      function createSparkle() {
+        const sparkleContainer = document.getElementById('sparkleContainer');
+        const sparkle = document.createElement('div');
+        sparkle.className = 'sparkle';
+        
+        // Random position
+        const x = Math.random() * 100;
+        const y = Math.random() * 100;
+        
+        // Random movement
+        const tx = (Math.random() - 0.5) * 200;
+        const ty = Math.random() * -100 - 50;
+        
+        sparkle.style.setProperty('--tx', `${tx}px`);
+        sparkle.style.setProperty('--ty', `${ty}px`);
+        
+        sparkle.style.left = `${x}%`;
+        sparkle.style.top = `${y}%`;
+        
+        sparkleContainer.appendChild(sparkle);
+        
+        // Remove sparkle after animation
+        setTimeout(() => {
+          sparkle.remove();
+        }, 3000);
+      }
+
+        // Create sparkles periodically
+        function startSparkles() {
+          // Initial sparkles (increased from 10 to 30 for more sparkles)
+          for(let i = 0; i < 30; i++) { 
+            setTimeout(createSparkle, Math.random() * 1000);
+          }
+          
+          // Continue creating sparkles with a reduced interval (from 300ms to 100ms)
+          setInterval(() => {
+            if(document.hidden) return; // Don't create sparkles when page is not visible
+            createSparkle();
+          }, 100);
+        }
+
+
+      // Start the effect when page loads
+      document.addEventListener('DOMContentLoaded', startSparkles);
+    </script>
+  </body>
+</html>

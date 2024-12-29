@@ -1,0 +1,10 @@
+Women Maxi Dress → categoryID: 1
+Women Hoodies → categoryID: 2
+Women Kurtis → categoryID: 3
+Women’s Sandals → categoryID: 4
+Men’s Jacket → categoryID: 5
+Men’s Shirts → categoryID: 6
+Men’s Shoes → categoryID: 7
+Men’s Sunglasses → categoryID: 8
+Men's Wallet and Women's Purse→ categoryID: 9
+Men's and Women's Watches → categoryID: 10

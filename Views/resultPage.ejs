@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Product Display - ShopGenie</title>
+  <!-- Bootstrap CSS CDN -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <style>
+    :root {
+      --secondary-color: #9c27b0;
+      --accent-color: #e1bee7;
+      --text-color: #333;
+      --light-bg: #f8f9fa;
+    }
+
+    body {
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      color: var(--text-color);
+      background: linear-gradient(195deg, #9c27b0, #e1bee7);
+    }
+
+    .navbar {
+      padding: 1rem 0;
+    }
+
+    .navbar-brand {
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: white !important;
+    }
+
+    .nav-link {
+      color: rgba(255, 255, 255, 0.9) !important;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    .nav-link:hover {
+      color: var(--accent-color) !important;
+    }
+
+    .product-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      margin-top: 2rem;
+    }
+
+    .product-container {
+      background:white;
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 2rem;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      width: 350px; /* Increased product container width */
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .product-container:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .product-image {
+      width: 100%;
+      height: auto;
+      aspect-ratio: 16 / 9; /* Maintain aspect ratio */
+      object-fit: contain; /* Fit the entire image without zooming */
+      transition: transform 0.3s ease;
+    }
+
+    .product-container:hover .product-image {
+      transform: scale(1.05);
+    }
+
+    .product-title {
+      padding: 1rem;
+      text-align: left;
+      font-size: 1.2rem;
+      font-weight: 400;
+      color: var(--secondary-color);
+    }
+
+    .icon-buttons {
+      padding: 0.5rem;
+      text-align: center;
+      background: var(--light-bg);
+      border-top-left-radius: 10px;
+      border-top-right-radius: 10px;
+    }
+
+    .icon-buttons i {
+      font-size: 1.5rem;
+      margin: 0 10px;
+      cursor: pointer;
+    }
+
+    .icon-buttons i:hover {
+      color: var(--secondary-color);
+    }
+
+    .platforms {
+      padding: 0 1rem 1rem;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .platform {
+      flex-basis: 30%; 
+    }
+
+    .platform-container {
+      padding: 0.2rem;
+      background: var(--light-bg);
+      border-radius: 10px;
+      text-align: center;
+      height: 190px; 
+      display: flex;
+      flex-direction: column;
+      /* justify-content: ; */
+    }
+    .platform-container p{
+      text-align: left;
+    }
+
+
+    .platform-logo {
+      max-height: 30px;
+      max-width: 30px;
+      margin-bottom: 0.5rem;
+    }
+
+    .star-rating {
+      font-size: 1rem;
+      color: #ffb400;
+    }
+
+    .page-item.active .page-link {
+      background-color: var(--secondary-color);
+      border-color: var(--secondary-color);
+    }
+
+    .modal-body {
+      color: var(--text-color);
+    }
+
+    .footer {
+      text-align: center;
+      padding: 2px;
+      background-color: rgba(211, 211, 211, 0.274);
+      color: var(--secondary-color);
+      font-weight: bold;
+      font-size: large;
+    }
+
+    @media (max-width: 768px) {
+      .product-grid {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .platforms {
+        flex-direction: column; /* Stack platforms vertically on smaller screens */
+      }
+
+      .platform {
+        margin-bottom: 1rem;
+      }
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container">
+      <a class="navbar-brand" href="/indexPage">✨ ShopGenie</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="/indexPage">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/wishlist/wishlistPage">Wishlist</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">About Us</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Contact</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Product Grid -->
+  <div class="container">
+    <div class="product-grid">
+      <% products.forEach(product => { %>
+        <div class="product-container">
+          <!-- Icon Buttons -->
+          <div class="icon-buttons text-center">
+            <i class="far fa-heart wishlist-button" title="Add to Wishlist" onclick="addtowishlist('<%= product.productID %>')"></i>
+            <i class="fas fa-gem" title="Recommend" onclick="recommendBestProduct('<%= product.title %>', <%= JSON.stringify(product.platforms) %>, '<%= product.link %>')"></i>
+            <i class="fas fa-chart-line" title="Analytics" onclick="window.location.href='analytics.html';"></i>
+          </div>
+
+          <div class="d-flex align-items-center justify-content-center">
+            <img src="<%= product.image %>" alt="<%= product.title %>" class="product-image">
+          </div>
+
+          <h3 class="product-title"><%= product.title %></h3>
+
+          <!-- Platform Info -->
+          <div class="platforms">
+            <% product.platforms.forEach(platform => { %>
+              <div class="platform">
+                <div class="platform-container">
+                  <a href="<%= platform.link %>" target="_blank">
+                    <img src="<%= platform.icon %>" class="platform-logo">
+                  </a>
+                  <p style="text-align: left;">Price: ₹<%= platform.price %></p>
+                  <p>MRP: <span style="text-decoration: line-through; text-align: left;">₹<%= platform.maxprice %></span></p>
+                  <p class="star-rating">Ratings:
+                    <span class="rating-value"><%= platform.ratings %></span>
+                    <i class="fas fa-star"></i>
+                  </p>
+                </div>
+              </div>
+            <% }); %>
+          </div>
+        </div>
+      <% }); %>
+    </div>
+  </div>
+
+  <!-- Pagination -->
+  <nav aria-label="Page navigation">
+    <ul class="pagination justify-content-center">
+      <% if (currentPage > 1) { %>
+        <li class="page-item">
+          <a class="page-link" href="?categoryID=<%= categoryID %>&page=<%= currentPage - 1 %>">Previous</a>
+        </li>
+      <% } %>
+      <% for (let i = 1; i <= totalPages; i++) { %>
+        <li class="page-item <%= i === currentPage ? 'active' : '' %>">
+          <a class="page-link" href="?categoryID=<%= categoryID %>&page=<%= i %>"><%= i %></a>
+        </li>
+      <% } %>
+      <% if (currentPage < totalPages) { %>
+        <li class="page-item">
+          <a class="page-link" href="?categoryID=<%= categoryID %>&page=<%= currentPage + 1 %>">Next</a>
+        </li>
+      <% } %>
+    </ul>
+  </nav>
+
+  <!-- Modal for Recommended Product -->
+  <div class="modal fade" id="recommendedModal" tabindex="-1" aria-labelledby="recommendedModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="recommendedModalLabel">ShopGenie's Recommended Product</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color: #9c27b0; font-size: 1.5rem; opacity: 1; padding: 5px; text-align: center;">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          
+        </div>
+        <div class="modal-body">
+          <p>ShopGenie recommends the following product:</p>
+          <h5 id="recommended-product-name"></h5>
+          <p>Price: <span id="recommended-product-price"></span></p>
+          <p>Rating: <span id="recommended-product-rating"></span> <i class="fas fa-star"></i></p>
+          <p>Platform: <span id="recommended-product-platform"></span></p>
+        </div>
+        <div class="modal-footer">
+          <a href="#" id="recommended-product-link" class="btn btn-primary">Go to Product</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <p>&copy; 2024 ShopGenie. All rights reserved.</p>
+  </div>
+
+  <!-- Bootstrap JS CDN -->
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    function recommendBestProduct(productName, platforms, productLink) {
+      let maxScore = -Infinity;
+      let bestPlatform = null;
+
+      const maxPrice = Math.max(...platforms.map(p => parseFloat(p.price) || 0));
+      const maxRating = Math.max(...platforms.map(p => parseFloat(p.ratings) || 0));
+
+      platforms.forEach(platform => {
+        const normalizedPrice = maxPrice > 0 ? (parseFloat(platform.price) || 0) / maxPrice : 1;
+        const normalizedRating = maxRating > 0 ? (parseFloat(platform.ratings) || 0) / maxRating : 0;
+        const score = 0.7 * normalizedRating - 0.3 * normalizedPrice;
+
+        if (score > maxScore) {
+          maxScore = score;
+          bestPlatform = platform;
+        }
+      });
+
+      if (bestPlatform) {
+        document.getElementById('recommended-product-name').innerText = productName;
+        document.getElementById('recommended-product-price').innerText = `₹${bestPlatform.price}`;
+        document.getElementById('recommended-product-rating').innerText = bestPlatform.ratings;
+        document.getElementById('recommended-product-platform').innerText = bestPlatform.name;
+        document.getElementById('recommended-product-link').href = bestPlatform.link;
+
+        const modal = new bootstrap.Modal(document.getElementById('recommendedModal'));
+        modal.show();
+      }
+    }
+
+    function addtowishlist(productID) {
+      // Select the button based on the onclick event.
+      const button = document.querySelector(`[onclick="addtowishlist('${productID}')"]`);
+
+      // Toggle the 'active' class, which would change the icon's state (e.g., heart to filled).
+      const isActive = button.classList.toggle("active"); // This changes the class to toggle the icon
+
+      // Make a POST request to the backend to add or remove the product from the wishlist
+      fetch(`/wishlist/toggle`, {  // Endpoint for toggling the wishlist
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ productID: productID, isWished: isActive }) // Pass productID and isActive in the body
+      })
+      .then(response => response.json())
+      .then(response => {
+        if (response.message) {
+          alert(response.message);
+        } else {
+          alert("Failed to update wishlist on the server.");
+        }
+      })
+      .catch(error => {
+        alert("An error occurred while updating the wishlist.");
+        console.error(error);
+      });
+    }
+  </script>
+</body>
+</html>
